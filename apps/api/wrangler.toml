@@ -1,0 +1,41 @@
+name = "saas-api"
+main = "src/index.ts"
+compatibility_date = "2024-05-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Development settings
+[vars]
+ENVIRONMENT = "development"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "saas-db"
+database_id = "YOUR_D1_DATABASE_ID"
+
+# R2 Storage binding
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "saas-storage"
+
+# KV Namespace for sessions/cache
+[[kv_namespaces]]
+binding = "KV"
+id = "YOUR_KV_NAMESPACE_ID"
+
+# Production environment
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "saas-db-prod"
+database_id = "YOUR_PROD_D1_DATABASE_ID"
+
+[[env.production.r2_buckets]]
+binding = "STORAGE"
+bucket_name = "saas-storage-prod"
+
+[[env.production.kv_namespaces]]
+binding = "KV"
+id = "YOUR_PROD_KV_NAMESPACE_ID"

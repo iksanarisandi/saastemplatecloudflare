@@ -1,0 +1,99 @@
+# ===========================================
+# Cloudflare SaaS Boilerplate - Root Configuration
+# ===========================================
+# This file serves as documentation and reference for Cloudflare resources.
+# Individual apps have their own wrangler.toml files for deployment.
+
+# ===========================================
+# Required Cloudflare Resources
+# ===========================================
+
+# 1. D1 Database (SQLite-based serverless database)
+#    Development: wrangler d1 create saas-db
+#    Production:  wrangler d1 create saas-db-prod
+
+# 2. R2 Bucket (S3-compatible object storage)
+#    Development: wrangler r2 bucket create saas-storage
+#    Production:  wrangler r2 bucket create saas-storage-prod
+
+# 3. KV Namespace (Key-value storage for sessions/cache)
+#    Development: wrangler kv:namespace create KV
+#    Production:  wrangler kv:namespace create KV_PROD
+
+# ===========================================
+# Quick Start Guide
+# ===========================================
+
+# Step 1: Install dependencies
+#   pnpm install
+
+# Step 2: Set up Cloudflare resources (run setup script)
+#   pnpm setup
+#   OR manually:
+#   - wrangler d1 create saas-db
+#   - wrangler r2 bucket create saas-storage
+#   - wrangler kv:namespace create KV
+#   - Update IDs in apps/api/wrangler.toml
+
+# Step 3: Run migrations
+#   pnpm db:migrate:local
+#   OR: wrangler d1 execute saas-db --local --file=packages/db/src/migrations/001_initial_schema.sql
+
+# Step 4: Seed data (optional)
+#   pnpm db:seed:local
+
+# Step 5: Start development
+#   pnpm dev
+
+# ===========================================
+# Development Commands
+# ===========================================
+
+# Start all services:     pnpm dev
+# Start API only:         pnpm --filter @saas/api dev
+# Start Web only:         pnpm --filter @saas/web dev
+# Run tests:              pnpm test
+# Type check:             pnpm typecheck
+# Build all:              pnpm build
+
+# ===========================================
+# Database Commands
+# ===========================================
+
+# Local migrations:       pnpm db:migrate:local
+# Production migrations:  pnpm db:migrate:prod
+# Local seed:             pnpm db:seed:local
+# Production seed:        pnpm db:seed:prod
+# Migration status:       pnpm --filter @saas/db migrate status
+
+# ===========================================
+# Deployment Commands
+# ===========================================
+
+# Deploy all:             pnpm deploy
+# Deploy API (dev):       pnpm deploy:api
+# Deploy API (prod):      pnpm deploy:api:prod
+# Deploy Web:             pnpm deploy:web
+
+# ===========================================
+# Environment Configuration
+# ===========================================
+
+# 1. Copy .env.example to .env
+# 2. Update values with your Cloudflare resource IDs
+# 3. For production, set secrets via wrangler:
+#    wrangler secret put AUTH_SECRET --config apps/api/wrangler.prod.toml
+#    wrangler secret put TELEGRAM_BOT_TOKEN --config apps/api/wrangler.prod.toml
+#    wrangler secret put EMAIL_API_KEY --config apps/api/wrangler.prod.toml
+
+# ===========================================
+# Project Structure
+# ===========================================
+
+# apps/
+#   api/          - Hono.js API (Cloudflare Workers)
+#   web/          - SvelteKit Frontend (Cloudflare Pages)
+# packages/
+#   db/           - Database schema, migrations, repositories
+#   shared/       - Shared types, validators, constants
+# scripts/        - Setup and deployment scripts

@@ -1,0 +1,28 @@
+# ===========================================
+# SvelteKit Web App - Cloudflare Pages Configuration
+# ===========================================
+# This file configures the Pages Functions for the SvelteKit app
+# Deploy with: wrangler pages deploy .svelte-kit/cloudflare
+
+name = "saas-web"
+compatibility_date = "2024-05-01"
+compatibility_flags = ["nodejs_compat"]
+
+# ===========================================
+# Environment Variables
+# ===========================================
+# These are available in Pages Functions (server-side)
+[vars]
+ENVIRONMENT = "development"
+
+# ===========================================
+# Pages-specific settings
+# ===========================================
+# Note: Most Pages configuration is done via the Cloudflare dashboard
+# or through the wrangler pages commands
+
+# For local development with Pages:
+# wrangler pages dev .svelte-kit/cloudflare
+
+# For deployment:
+# wrangler pages deploy .svelte-kit/cloudflare --project-name=saas-web

@@ -1,0 +1,39 @@
+{
+  "name": "cloudflare-saas-boilerplate",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean && rimraf node_modules",
+    "db:migrate": "pnpm --filter @saas/db migrate",
+    "db:migrate:local": "wrangler d1 execute saas-db --local --file=packages/db/src/migrations/001_initial_schema.sql",
+    "db:migrate:prod": "wrangler d1 execute saas-db-prod --file=packages/db/src/migrations/001_initial_schema.sql",
+    "db:seed": "pnpm --filter @saas/db seed",
+    "db:seed:local": "pnpm --filter @saas/db seed",
+    "db:seed:prod": "pnpm --filter @saas/db seed",
+    "setup": "tsx scripts/setup.ts",
+    "setup:resources": "tsx scripts/setup.ts --resources-only",
+    "deploy": "tsx scripts/deploy.ts",
+    "deploy:prod": "tsx scripts/deploy.ts --prod",
+    "deploy:api": "tsx scripts/deploy-api.ts",
+    "deploy:api:prod": "tsx scripts/deploy-api.ts --prod",
+    "deploy:web": "tsx scripts/deploy-web.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "rimraf": "^5.0.5",
+    "tsx": "^4.7.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.3.0"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}
