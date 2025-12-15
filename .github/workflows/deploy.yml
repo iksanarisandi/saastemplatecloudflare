@@ -90,11 +90,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Download API build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: api-build
-          path: apps/api/dist
+      - name: Build workspace packages
+        run: pnpm build
 
       - name: Deploy API to Cloudflare Workers
         working-directory: apps/api
@@ -165,11 +162,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Download Web build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: web-build
-          path: apps/web/.svelte-kit/cloudflare
+      - name: Build workspace packages
+        run: pnpm build
 
       - name: Deploy Web to Cloudflare Pages
         working-directory: apps/web
