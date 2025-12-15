@@ -1,0 +1,43 @@
+name: Run Database Migrations
+
+on:
+  workflow_dispatch:
+    inputs:
+      migration_file:
+        description: 'Migration file path (relative to packages/db/src/migrations/)'
+        required: true
+        default: '001_initial_schema.sql'
+        type: string
+      confirm:
+        description: 'Type "yes" to confirm migration on production database'
+        required: true
+        type: string
+
+jobs:
+  migrate:
+    name: Run Migration
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'yes'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
+      - name: Run Migration
+        run: |
+          wrangler d1 execute ${{ vars.D1_DATABASE_NAME }} \
+            --remote \
+            --file=packages/db/src/migrations/${{ github.event.inputs.migration_file }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Migration Complete
+        run: echo "✅ Migration ${{ github.event.inputs.migration_file }} completed successfully!"
