@@ -63,7 +63,9 @@ authRoutes.post(
         email: result.data.user.email,
         role: result.data.user.role,
         status: result.data.user.status,
+        tenantId: result.data.user.tenantId,
       },
+      token: result.data.session.id,
       session: {
         id: result.data.session.id,
         expiresAt: result.data.session.expiresAt.toISOString(),
@@ -124,7 +126,9 @@ authRoutes.post(
         email: result.data.user.email,
         role: result.data.user.role,
         status: result.data.user.status,
+        tenantId: result.data.user.tenantId,
       },
+      token: result.data.session.id,
       session: {
         id: result.data.session.id,
         expiresAt: result.data.session.expiresAt.toISOString(),
@@ -237,24 +241,15 @@ authRoutes.post(
 authRoutes.get('/me', authMiddleware, async (c) => {
   const auth = c.get('auth');
 
+  // Return user directly as PublicUser (matching frontend expectation)
   return success(c, {
-    user: {
-      id: auth.user.id,
-      email: auth.user.email,
-      role: auth.user.role,
-      status: auth.user.status,
-      tenantId: auth.user.tenantId,
-    },
-    tenant: {
-      id: auth.tenant.id,
-      name: auth.tenant.name,
-      slug: auth.tenant.slug,
-      status: auth.tenant.status,
-    },
-    session: {
-      id: auth.session.id,
-      expiresAt: auth.session.expiresAt.toISOString(),
-    },
+    id: auth.user.id,
+    email: auth.user.email,
+    role: auth.user.role,
+    status: auth.user.status,
+    tenantId: auth.user.tenantId,
+    createdAt: auth.user.createdAt.toISOString(),
+    updatedAt: auth.user.updatedAt.toISOString(),
   });
 });
 
