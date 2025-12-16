@@ -96,6 +96,8 @@ jobs:
 
       - name: Build workspace packages
         run: pnpm build
+        env:
+          PUBLIC_API_URL: ${{ vars.PUBLIC_API_URL }}
 
       - name: Deploy API to Cloudflare Workers
         working-directory: apps/api
